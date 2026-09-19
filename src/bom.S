@@ -4,13 +4,16 @@
 .global boot
 
 .text
-
 boot:
    la sp, __end + 8192  
 
 
    la a0, hello_log
    call kprint
+
+
+   la t0, trap_handler
+   csrw stvec, t0
 
    b: c.j b
 
@@ -34,5 +37,15 @@ kprint:
 print_exit:
     ret
 
+.align 4
+trap_handler:
+    la a0, trap_log
+    call kprint
+
+    wfi
+
 hello_log:
    .asciz "Bom\n" 
+
+trap_log:
+   .asciz "Trp\n"
