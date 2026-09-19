@@ -5,8 +5,9 @@
 
 .text
 boot:
-   la sp, __end + 8192  
+   la sp, __end + 1024 * 1024
 
+   call alloc_init
 
    la a0, hello_log
    call kprint
@@ -34,8 +35,19 @@ kprint:
 
      c.j kprint_inner
 
-print_exit:
+print_exit:    
     ret
+
+
+alloc_init:
+	la a0, __end
+	ret
+
+alloc:
+	ret
+
+free: 
+	ret
 
 .align 4
 trap_handler:
